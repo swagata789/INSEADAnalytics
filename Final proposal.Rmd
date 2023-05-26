@@ -1,0 +1,104 @@
+---
+title: "Final Project Proposal: Victory Farms"
+author: "Group 3
+
+        BORTHAKUR Swagata
+        
+        LIN Yuhan
+        
+        Li Keyu
+        
+        SIRAGUSA Emanuaele"
+        
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:  html_document
+---
+<span style ="color :Blue;">Business Problem</span>
+
+VF is a a rapidly growing tilapia fish farm with a retail network of 50 branches. Its ultimate objective is to minimize any lost sales. To achieve this objective, VF changed a pull model to a push model to send appropriate product mix to branches. However, Sell outs and early closures happened sometimes, which means VF lost revenue due to supply constraints.
+
+<span style ="color :Blue;">Project Goal</span>
+
+* Demand projection: Build a regression model that allows to project daily demand per SKU. Based on predicted demand per SKU, conclude predicted demand per branch.
+
+* A real time feedback loop for daily actual sales to allow the model to learn from its errors.
+
+<span style ="color :Blue;">Solution Proposal</span>
+
+##### Data Preparation
+
+Import the historical sales data into RStudio. Ensure the data is properly formatted and handle any missing or inconsistent values. Convert the data into a time series format, ensuring the appropriate time intervals.
+
+##### Data Analysis
+
+Understand the patterns, trends, and seasonality in the sales data. Use techniques such as time series decomposition to identify components like trend, seasonality, and residuals.
+
+##### Feature Engineering
+
+Create additional features that can potentially improve the demand projection, such as lagged variables, rolling averages, or seasonal indicators. Consider incorporating external factors that may impact sales, such as holidays or promotions.
+
+##### Model Selection
+
+Consider the different model, such as ETS, TBATS, ARIMA, logistic regression. Choose the most appropriate model based on the characteristics of the data. Assess the assumptions and limitations of each model.
+
+##### Training and Testing
+
+Split the data into training and testing sets, ensuring that the most recent data is kept for validation purposes. Fit the chosen model using the training data, incorporating relevant features and considering different SKU and branch combinations. Fine-tune the model's parameters using techniques like cross-validation.
+
+##### Model Evaluation
+
+Evaluate the performance of the model using suitable metrics for demand projection, or forecast accuracy measures like MASE or sMAPE. Compare the performance of different models to identify the most accurate and reliable option.
+
+##### Model Validation and Refinement
+
+Validate the model's performance on the testing set to ensure its generalizability.Assess any biases or errors in the model's predictions and iterate on the model if necessary. Consider using techniques like stepwise regression or variable selection (e.g., LASSO, Ridge) to refine the model further.
+
+##### Demand Projection
+
+Once the model is validated, use it to make daily demand projections for each branch and SKU combination.Incorporate the forecasting model into the demand projection tool, allowing users to input SKU and branch information to generate accurate predictions.
+
+<span style ="color :Blue;">Appendix</span>
+
+*Data Dictionaries*
+
+
+```{r load files and run regression, eval = T, echo = F, message = F, warning = F}
+
+# Load required packages
+library(knitr)
+
+#Sales revenue in KES and Quantity sold per outlet per day by SKU (2016 – 2021)
+
+table1_data <- data.frame(
+  Tab = c("Items sold in kg per outlet per day", " ", " ", " ", " "),
+  Column_Index = c("A", "B", "C", "D", "E"),
+  Column_Name = c("Date", "Outlet", "SKU name", "Quantity", "Revenue"),
+  Data_Type = c("Date/Time", "Text", "Text", "Number", "Currency"),
+  Description = c("Date of transaction", "Name of outlets/branches", "Stock keeping unit code for products", "Quantity sold per branch per day", "Day and date of sale in kes"),
+  Required = c("Yes","Yes","Yes","Yes","Yes")
+)
+
+#Daily sales revenue per customer by outlet (2016 - 2021)
+
+table2_data <- data.frame(
+  Tab = c("Merchant Account summary", "", "", "", "", "", "", "", "", "", "", "", "", ""),
+  Column_Index = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"),
+  Column_Name = c("Receipt No.", "Completion time", "Initiation time", "Details", "Transaction status", "Paid in", "Withdrawn", "Balance", "Balance confirmed", "Reason type", "Other party info","Linked transaction", "A/C No.", "Outlet"),
+  Data_Type = c("Text", "Time/Date", "Time/Date", "Text", "Text",  "Currency", "Currency", "Currency", "Text", "Text", "Text", " ", " ", "Text"),
+  Description = c("M-Pesa transaction reference IDs", "Time transaction was completed", "Time transaction was initiated", "Transaction description, source mobile no., name of customer","Transaction status if completed or pending", "Amount paid by customers", "Amount deducted by Telco as transaction charge", "Cumulative balance in outlet till", "Validates branch balance", "Payment method discription", "Customer mobile no. and name", "Column is blank", "Column is blank", "Outlet Name"),
+  Required = c("Yes","No","Yes","No","No","Yes","No","No","No","No","Yes","No","No","Yes" )
+)
+
+
+# Generate table
+kable(table1_data, caption = "Sales revenue in KES and Quantity sold per outlet per day by SKU (2016 – 2021)")
+# Generate table
+kable(table2_data, caption= "Daily Sales revenue per customer by outlet (2016 – 2021)")
+```
+                                    
+
+
+
+\pagebreak
+
+
